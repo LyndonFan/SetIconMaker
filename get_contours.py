@@ -45,7 +45,7 @@ def get_contours(image):
     contours,hier = cv2.findContours(des,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
     contours_copy = []
     for cnt in contours:
-        if len(cnt) >=3:
+        if len(cnt)>=3:
             cv2.drawContours(des,[cnt],0,255,-1)
             contours_copy.append(cnt)
     return contours_copy
