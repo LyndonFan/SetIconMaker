@@ -53,27 +53,9 @@ def get_contours(image):
 if __name__ == "__main__":
 
     image = cv2.imread('/Users/lyndonf/Desktop/Entertainment/MTG/DIYs/Raw (Don\'t delete)/Dromoka.png') 
-
-    gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
-    des = cv2.bitwise_not(gray)
     contours = get_contours(image)
-    gray = cv2.bitwise_not(des)
 
-    cv2.imshow("gray",gray)
-    cv2.waitKey(0)
-    print(len(contours))
-    im = gray
-    im = np.pad(im, 20, constant_values=255)
-    for cnt in contours:
-        rect = cv2.minAreaRect(cnt)
-        box = cv2.boxPoints(rect)
-        box = np.int0(box)
-        if cv2.contourArea(box) >= 25:
-            print(box)
-            cv2.drawContours(im,[box],0,(0,255,0),10,offset=(20,20))
-
-    cv2.imshow("w/ box",im)
-    cv2.waitKey(0)
+    
     '''
     im2 = np.ones(im.shape) * 255
     cv2.drawContours(im2,[box],0,(0,0,0),-1)
