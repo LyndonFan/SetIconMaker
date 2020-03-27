@@ -51,15 +51,5 @@ def get_contours(image):
     return contours_copy
 
 if __name__ == "__main__":
-
-    image = cv2.imread('/Users/lyndonf/Desktop/Entertainment/MTG/DIYs/Raw (Don\'t delete)/Dromoka.png') 
+    image = cv2.imread('test.png') 
     contours = get_contours(image)
-
-    
-    '''
-    im2 = np.ones(im.shape) * 255
-    cv2.drawContours(im2,[box],0,(0,0,0),-1)
-
-    cv2.imshow("w/ box",im2)
-    cv2.waitKey(0)
-    '''

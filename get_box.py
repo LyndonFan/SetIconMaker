@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
+from get_contours import *
 
 def get_box(image,contours):
 
@@ -21,3 +22,8 @@ def get_box(image,contours):
     cv2.imshow("w/ box",im)
     cv2.waitKey(0)
     return box
+
+if __name__ == "__main__":
+    image = cv2.imread('test.png') 
+    contours = get_contours(image)
+    box = get_box(image,contours)
