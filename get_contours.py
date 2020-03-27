@@ -53,3 +53,6 @@ def get_contours(image):
 if __name__ == "__main__":
     image = cv2.imread('test.png') 
     contours = get_contours(image)
+
+    image = cv2.imread('test2.png') 
+    contours = get_contours(image)
