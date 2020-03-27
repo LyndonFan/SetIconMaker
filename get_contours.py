@@ -54,6 +54,8 @@ if __name__ == "__main__":
 
     image = cv2.imread('/Users/lyndonf/Desktop/Entertainment/MTG/DIYs/Raw (Don\'t delete)/Dromoka.png') 
 
+    gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+    des = cv2.bitwise_not(gray)
     contours = get_contours(image)
     gray = cv2.bitwise_not(des)
 
