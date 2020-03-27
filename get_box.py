@@ -3,13 +3,10 @@ import numpy as np
 from matplotlib import pyplot as plt
 from get_contours import *
 
-def get_box(image,contours):
+def get_box(im,contours):
 
-    gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
-    cv2.imshow("gray",gray)
-    cv2.waitKey(0)
     print(len(contours))
-    im = gray
+    im = image
     im = np.pad(im, 20, constant_values=255)
     for cnt in contours:
         rect = cv2.minAreaRect(cnt)
