@@ -7,26 +7,23 @@ PAD_WIDTH = 20
 
 def get_box(im,contours):
 
-    im_padded = im
-    print(im_padded.shape)
-    im_padded = np.pad(im, PAD_WIDTH, constant_values=255)
-
+    print(im.shape)
     flatten = lambda l: [item for sublist in l for item in sublist]
     print(contours[0])
     points = np.array(flatten(flatten(contours)))
     print(len(points),points[0])
     hull = cv2.convexHull(points)
     #print(hull)
-    hull_display = hull + PAD_WIDTH
-    cv2.polylines(im_padded,[hull_display],True,thickness=10,color=(0,255,255),lineType=cv2.LINE_4)
     rect = cv2.minAreaRect(hull)
     print(rect)
+
+    im_display = im.copy()
+    cv2.polylines(im_display,[hull],True,thickness=10,color=(0,255,255),lineType=cv2.LINE_4)
     box = cv2.boxPoints(rect)
     box = np.int0(box)
-    if cv2.contourArea(box) >= 25:
-        print(box,type(box))
-        cv2.drawContours(im_padded,[box],-1,(0,255,0),5,offset=(PAD_WIDTH,PAD_WIDTH))
-    cv2.imshow("w/ box",im_padded)
+    print(box,type(box))
+    cv2.drawContours(im_display,[box],-1,(0,255,0),10)
+    cv2.imshow("w/ box",im_display)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     return rect
