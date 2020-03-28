@@ -57,7 +57,7 @@ WIDTH = 900
 for x in "urm":
   img = Image.new("RGB", (WIDTH,WIDTH), "#FFFFFF")
   draw = ImageDraw.Draw(img)
-  gradient = linear_gradient(rarity_clrs[x]["light"],rarity_clrs[x]["deep"],WIDTH//2)
+  gradient = linear_gradient(rarity_clrs[x]["deep"],rarity_clrs[x]["light"],WIDTH//2)
   r,g,b = gradient["r"], gradient["g"], gradient["b"]
   for i in range(WIDTH//2):
     draw.line((i,0,i,WIDTH), fill=(int(r[i]),int(g[i]),int(b[i])))
