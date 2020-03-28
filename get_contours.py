@@ -24,9 +24,10 @@ def get_contours(image):
     # Use a copy of the image e.g. edged.copy() 
     # since findContours alters the image 
     contours, hierarchy = cv2.findContours(edged.copy(),  
-        cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     
     print("Number of Contours found = " + str(len(contours))) 
+    print("Hierarchy:",hierarchy)
 
     new_image = np.ones(image.shape) * 255
     # Draw all contours 
@@ -37,10 +38,13 @@ def get_contours(image):
     cv2.waitKey(0)
 
     contours_copy = []
-    for cnt in contours:
+    hierarchy_copy = []
+    for i in range(len(contours)):
+        cnt = contours[i]
         if len(cnt)>=3:
             contours_copy.append(cnt)
-    return contours_copy
+            hierarchy_copy.append(hierarchy[0][i])
+    return contours_copy, hierarchy_copy
 
 if __name__ == "__main__":
     image = cv2.imread('test.png') 
