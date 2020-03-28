@@ -4,12 +4,12 @@ from matplotlib import pyplot as plt
 from get_contours import *
 from get_box import *
 
-def get_icons(image,contours,obb):
+def get_icons(image,contours,obb,name="icon"):
     
     box = cv2.boxPoints(obb)
     box = np.int0(box)
 
-    for x in "urm":
+    for x in "URM":
         im = image
         background = cv2.imread(str(x)+".png")
         M_rot = cv2.getRotationMatrix2D(center=(background.shape[0]/2,background.shape[1]/2), angle = obb[-1]/np.pi*180,scale=1)
@@ -35,6 +35,8 @@ def get_icons(image,contours,obb):
         cv2.drawContours(res,contours,-1,(0,0,0),10,offset=(PAD_WIDTH,PAD_WIDTH))
         cv2.imshow(x,res)
         cv2.waitKey(0)
+
+        cv2.imwrite(name+x+".png",res)
         
 
 if __name__ == "__main__":
@@ -49,8 +51,3 @@ if __name__ == "__main__":
     contours = get_contours(image)
     obb = get_box_alt(image,contours)
     get_icons(gray,contours,obb)
-'''
-gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY) # convert to grayscale
-blur = cv2.blur(gray, (3, 3)) # blur the image
-ret, thresh = cv2.threshold(blur, 50, 255, cv2.THRESH_BINARY)
-'''
