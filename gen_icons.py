@@ -19,8 +19,8 @@ def gen_icons(raw_image,name="icon"):
         gray = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY) # convert to grayscale
     except:
         gray = resized
-    blur = cv2.blur(gray, (100, 100)) # blur the image
-    ret, thresh = cv2.threshold(blur, 100, 255, cv2.THRESH_BINARY)
+    blur = cv2.blur(gray, (5, 5)) # blur the image
+    ret, thresh = cv2.threshold(blur, 50, 255, cv2.THRESH_BINARY)
 
     cv2.imshow("threshed",thresh)
     cv2.waitKey(0)
