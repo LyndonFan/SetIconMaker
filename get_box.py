@@ -9,9 +9,9 @@ def get_box(im,contours):
 
     print(im.shape)
     flatten = lambda l: [item for sublist in l for item in sublist]
-    print(contours[0])
+    #print(contours[0])
     points = np.array(flatten(flatten(contours)))
-    print(len(points),points[0])
+    #print(len(points),points[0])
     hull = cv2.convexHull(points)
     #print(hull)
     rect = cv2.minAreaRect(hull)
