@@ -29,14 +29,14 @@ def gen_icons(raw_image,name="icon"):
     preprocessed = padded
     cv2.imshow("preprocessed",preprocessed)
     cv2.waitKey(0)
-    contours = get_contours(preprocessed)
+    contours, hierarchy = get_contours(preprocessed)
     obb = get_box(preprocessed,contours)
-    get_icons(preprocessed,contours,obb,name)
+    get_icons(preprocessed,contours,obb,hierarchy,name)
 
 if __name__ == "__main__":
     args = sys.argv
     if len(args)==1:
-        for i in range(1,4):
+        for i in range(1,5):
             name = "test"+str(i)
             image = cv2.imread(name+'.png')
             gen_icons(image,name)
