@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-
+from math import *
 
 def remove_noise(gray, num):
     Y, X = gray.shape
@@ -26,25 +26,34 @@ def get_contours(image):
     contours, hierarchy = cv2.findContours(edged.copy(),  
         cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     
+    
     print("Number of Contours found = " + str(len(contours))) 
     print("Hierarchy:",hierarchy)
 
-    new_image = np.ones(image.shape) * 255
-    # Draw all contours 
-    # -1 signifies drawing all contours 
-    cv2.drawContours(new_image, contours, -1, (0, 0, 0), 5) 
-    
-    cv2.imshow("contours",new_image)
-    cv2.waitKey(0)
-
-    contours_copy = []
-    hierarchy_copy = []
+    new_image = np.ones(image.shape[:2]) * 255
+    match_matrix = np.zeros((len(contours),len(contours)))
+    M = []
+    centroids = []
     for i in range(len(contours)):
+        curr = cv2.drawContours(new_image.copy(), contours, i, (0, 0, 0), 5)
+        cv2.imshow("cnt",curr)
         cnt = contours[i]
-        if len(cnt)>=3:
-            contours_copy.append(cnt)
-            hierarchy_copy.append(hierarchy[0][i])
-    return contours_copy, hierarchy_copy
+        M.append(cv2.moments(cnt))
+        centroids.append((int(M[-1]['m10']/M[-1]['m00']),int(M[-1]['m01']/M[-1]['m00'])))
+        print(i,centroids[-1],M[-1]["m00"])
+        cv2.waitKey(0)
+    for i in range(len(contours)):
+        for j in range(len(contours)):
+            match_matrix[i,j] = abs(centroids[i][0]-centroids[j][0])+abs(centroids[i][1]-centroids[j][1])<=10 and abs(M[i]["m00"]-M[j]["m00"])/max(M[i]["m00"],M[j]["m00"])<=0.2 
+            match_matrix[i,j] -= i==j
+    print(match_matrix) 
+    contours_copy = []
+    for i in range(len(contours)):
+        if not(1 in match_matrix[i,:i]):
+            contours_copy.append(contours[i])
+    print(contours_copy)
+    cv2.destroyAllWindows()
+    return contours_copy
 
 if __name__ == "__main__":
     image = cv2.imread('test.png') 
