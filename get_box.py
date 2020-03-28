@@ -9,14 +9,14 @@ def get_box(im,contours):
 
     print(im.shape)
     flatten = lambda l: [item for sublist in l for item in sublist]
-    #print(contours[0])
-    points = np.array(flatten(flatten(contours)))
-    #print(len(points),points[0])
-    hull = cv2.convexHull(points)
+    print(len(list(contours)))
+    points = np.concatenate(tuple(contours),axis=0)
+    hull = cv2.convexHull(np.float32(points))
     #print(hull)
     rect = cv2.minAreaRect(hull)
     print(rect)
 
+    '''
     im_display = im.copy()
     cv2.polylines(im_display,[hull],True,thickness=10,color=(0,255,255),lineType=cv2.LINE_4)
     box = cv2.boxPoints(rect)
@@ -25,6 +25,8 @@ def get_box(im,contours):
     cv2.drawContours(im_display,[box],-1,(0,255,0),10)
     cv2.imshow("w/ box",im_display)
     cv2.waitKey(0)
+    '''
+
     cv2.destroyAllWindows()
     return rect
 

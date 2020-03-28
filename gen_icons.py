@@ -23,15 +23,17 @@ def gen_icons(raw_image,name="icon"):
         gray = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY) # convert to grayscale
     except:
         gray = resized
-    blur = cv2.blur(gray, (5, 5)) # blur the image
+    blur = cv2.blur(gray, (10, 10)) # blur the image
     ret, thresh = cv2.threshold(blur, 50, 255, cv2.THRESH_BINARY)
     padded = np.pad(thresh,PAD_WIDTH,mode="constant",constant_values=255)
     preprocessed = padded
+    '''
     cv2.imshow("preprocessed",preprocessed)
     cv2.waitKey(0)
-    contours, hierarchy = get_contours(preprocessed)
+    '''
+    contours = get_contours(preprocessed)
     obb = get_box(preprocessed,contours)
-    get_icons(preprocessed,contours,obb,hierarchy,name)
+    get_icons(preprocessed,contours,obb,name)
 
 if __name__ == "__main__":
     args = sys.argv
