@@ -38,9 +38,10 @@ def get_box_alt(im,contours):
     points = np.array(flatten(flatten(contours)))
     print(len(points),points[0])
     hull = cv2.convexHull(points)
-    print(hull)
+    #print(hull)
     cv2.polylines(im_padded,[hull],True,thickness=5,color=(0,255,255))
     rect = cv2.minAreaRect(hull)
+    print(rect)
     box = cv2.boxPoints(rect)
     box = np.int0(box)
     if cv2.contourArea(box) >= 25:
