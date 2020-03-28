@@ -43,11 +43,11 @@ if __name__ == "__main__":
     image = cv2.imread('test2.png') 
     gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
     contours = get_contours(image)
-    obb = get_box_alt(image,contours)
+    obb = get_box(image,contours)
     get_icons(gray,contours,obb)
 
     image = cv2.imread('test.png') 
     gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
     contours = get_contours(image)
-    obb = get_box_alt(image,contours)
+    obb = get_box(image,contours)
     get_icons(gray,contours,obb)

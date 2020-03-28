@@ -9,7 +9,7 @@ def get_box(im,contours):
 
     im_padded = im
     print(im_padded.shape)
-    im_padded = np.pad(im, ((PAD_WIDTH,PAD_WIDTH),(PAD_WIDTH,PAD_WIDTH),(0,0)), constant_values=255)
+    im_padded = np.pad(im, PAD_WIDTH, constant_values=255)
 
     flatten = lambda l: [item for sublist in l for item in sublist]
     print(contours[0])

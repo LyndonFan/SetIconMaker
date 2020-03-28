@@ -15,20 +15,16 @@ def remove_noise(gray, num):
     return result
 
 def get_contours(image):    
-    # Grayscale 
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) 
-    
+    # Grayscale: assume input is grayscale
+    gray = image    
     # Find Canny edges 
     edged = cv2.Canny(gray, 30, 200) 
-    
+    cv2.imshow("edges",edged)
     # Finding Contours 
     # Use a copy of the image e.g. edged.copy() 
     # since findContours alters the image 
-    contours, hierarchy = cv2.findContours(edged,  
-        cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE) 
-    
-    cv2.imshow("original",image)
-    cv2.waitKey(0)
+    contours, hierarchy = cv2.findContours(edged.copy(),  
+        cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     
     print("Number of Contours found = " + str(len(contours))) 
 
@@ -40,13 +36,9 @@ def get_contours(image):
     cv2.imshow("contours",new_image)
     cv2.waitKey(0)
 
-    gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
-    des = cv2.bitwise_not(gray)
-    contours,hier = cv2.findContours(des,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
     contours_copy = []
     for cnt in contours:
         if len(cnt)>=3:
-            cv2.drawContours(des,[cnt],0,255,-1)
             contours_copy.append(cnt)
     return contours_copy
 
