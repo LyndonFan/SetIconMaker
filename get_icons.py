@@ -41,10 +41,13 @@ def get_icons(image,contours,obb,name="icon"):
     common = np.ones(image.shape) * 255
     cv2.drawContours(common,contours,-1,(0,0,0),10)
     cv2.imwrite(name+"C.png",common)
+
+    '''
+    #TODO: use hierachy to finish this part
     common_alt = np.ones(image.shape) * 255
     cv2.drawContours(common_alt,contours,-1,(0,0,0),-1)
     cv2.imwrite(name+"Calt.png",common_alt)
-        
+    '''
 
 if __name__ == "__main__":
     image = cv2.imread('test2.png') 
