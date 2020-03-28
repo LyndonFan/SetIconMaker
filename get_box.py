@@ -17,14 +17,15 @@ def get_box(im,contours):
     print(len(points),points[0])
     hull = cv2.convexHull(points)
     #print(hull)
-    cv2.polylines(im_padded,[hull],True,thickness=5,color=(0,255,255))
+    hull_display = hull + PAD_WIDTH
+    cv2.polylines(im_padded,[hull_display],True,thickness=10,color=(0,255,255),lineType=cv2.LINE_4)
     rect = cv2.minAreaRect(hull)
     print(rect)
     box = cv2.boxPoints(rect)
     box = np.int0(box)
     if cv2.contourArea(box) >= 25:
         print(box,type(box))
-        cv2.drawContours(im_padded,[box],-1,(0,255,0),10,offset=(PAD_WIDTH,PAD_WIDTH))
+        cv2.drawContours(im_padded,[box],-1,(0,255,0),5,offset=(PAD_WIDTH,PAD_WIDTH))
     cv2.imshow("w/ box",im_padded)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
