@@ -4,17 +4,20 @@ from matplotlib import pyplot as plt
 from get_contours import *
 from get_box import *
 
-def get_icons(image,contours,obb):
+def get_icons(image,contours,obb,angle="auto"):
     
     box = cv2.boxPoints(obb)
     box = np.int0(box)
 
     all_icons = {}
 
+    if type(angle)==str:
+        angle = obb[-1] - 90
+
     for x in "URM":
         im = image
         background = cv2.imread(str(x)+".png")
-        M_rot = cv2.getRotationMatrix2D(center=(background.shape[0]/2,background.shape[1]/2), angle = obb[-1] - 90,scale=1)
+        M_rot = cv2.getRotationMatrix2D(center=(background.shape[0]/2,background.shape[1]/2), angle = angle,scale=1)
         rot_background = cv2.warpAffine(background,M_rot,background.shape[:2])
         M_trans = np.float32([[1,0,obb[0][0]-background.shape[0]/2],[0,1,obb[0][1]-background.shape[1]/2]])
         trans_background = cv2.warpAffine(rot_background,M_trans,(image.shape[1],image.shape[0]))
