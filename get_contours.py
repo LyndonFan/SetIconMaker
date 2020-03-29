@@ -30,7 +30,7 @@ def get_contours(image):
     
     
     print("Number of Contours found = " + str(len(contours))) 
-    print("Hierarchy:",hierarchy)
+    
 
     new_image = np.ones(image.shape[:2]) * 255
     match_matrix = np.zeros((len(contours),len(contours)))
@@ -42,7 +42,7 @@ def get_contours(image):
         cnt = contours[i]
         M.append(cv2.moments(cnt))
         centroids.append((int(M[-1]['m10']/M[-1]['m00']),int(M[-1]['m01']/M[-1]['m00'])))
-        #print(i,centroids[-1],M[-1]["m00"])
+        print(i,centroids[-1],M[-1]["m00"])
         #cv2.waitKey(0)
     for i in range(len(contours)):
         for j in range(len(contours)):
@@ -51,7 +51,7 @@ def get_contours(image):
     #print(match_matrix) 
     contours_copy = []
     for i in range(len(contours)):
-        if not(1 in match_matrix[i,:i] or cv2.moments(contours[i])["m00"]>=image.shape[0]*image.shape[1]*0.8):
+        if not(1 in match_matrix[i,:]) and cv2.moments(contours[i])["m00"]<image.shape[0]*image.shape[1]*3/5:
             contours_copy.append(contours[i])
     #print(contours_copy)
     cv2.destroyAllWindows()
