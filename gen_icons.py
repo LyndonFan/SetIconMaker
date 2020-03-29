@@ -33,7 +33,9 @@ def gen_icons(raw_image,name="icon"):
     '''
     contours = get_contours(preprocessed)
     obb = get_box(preprocessed,contours)
-    get_icons(preprocessed,contours,obb,name)
+    all_icons = get_icons(preprocessed,contours,obb)
+    for key in all_icons.keys():
+        cv2.imwrite(name+key+".png",all_icons[key])
 
 if __name__ == "__main__":
     args = sys.argv

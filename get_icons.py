@@ -4,10 +4,12 @@ from matplotlib import pyplot as plt
 from get_contours import *
 from get_box import *
 
-def get_icons(image,contours,obb,name="icon"):
+def get_icons(image,contours,obb):
     
     box = cv2.boxPoints(obb)
     box = np.int0(box)
+
+    all_icons = {}
 
     for x in "URM":
         im = image
@@ -40,17 +42,20 @@ def get_icons(image,contours,obb,name="icon"):
         cv2.imshow(x,res)
         cv2.waitKey(0)
         '''
-        cv2.imwrite(name+x+".png",res)
+        #cv2.imwrite(name+x+".png",res)
+        all_icons[x] = res
     
     common = np.ones(image.shape) * 255
     cv2.drawContours(common,contours,-1,(0,0,0),10)
-    cv2.imwrite(name+"C.png",common)
+    #cv2.imwrite(name+"C.png",common)
+    all_icons["C"] = common
 
     common_alt = np.ones(image.shape) * 255
     cv2.drawContours(common_alt,contours,-1,(0,0,0),-1)
-    cv2.imwrite(name+"Calt.png",common_alt)
-    
-    
+    #cv2.imwrite(name+"C_alt.png",common_alt)
+    all_icons["C_alt"] = common_alt
+
+    return all_icons
 
 if __name__ == "__main__":
     image = cv2.imread('test2.png') 
