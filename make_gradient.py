@@ -47,17 +47,42 @@ def linear_gradient(start_hex, finish_hex="#FFFFFF", n=10):
 
   return color_dict(RGB_list)
 
+def power_gradient(start_hex, finish_hex="#FFFFFF", n=10, pow = 1.5):
+  ''' returns a nonlinear gradient list of (n) colors between
+    two hex colors, with more on finish_hex.
+    start_hex and finish_hex should be the
+    full six-digit color string,
+    inlcuding the number sign ("#FFFFFF").
+    The pow para. is to control how heavy the power is.'''
+  # Starting and ending colors in RGB form
+  s = hex_to_RGB(start_hex)
+  f = hex_to_RGB(finish_hex)
+  # Initilize a list of the output colors with the starting color
+  RGB_list = [s]
+  # Calcuate a color at each evenly spaced value of t from 1 to n
+  for t in range(1, n):
+    # Interpolate RGB vector for color at the current value of t
+    k = (n-1)**pow
+    curr_vector = [
+      int(s[j] + ((k - float(n - t)**pow)*(f[j]-s[j])/k))
+      for j in range(3)
+    ]
+    # Add it to our list of output colors
+    RGB_list.append(curr_vector)
+
+  return color_dict(RGB_list)
+
 rarity_clrs = {
-  "u":{"light":"#bae2ef","deep":"#4b6c79"},
-  "r":{"light":"#e9d292","deep":"#887441"},
-  "m":{"light":"#f59326","deep":"#b43326"}
+  "U":{"light":"#bae2ef","deep":"#4b6c79"},
+  "R":{"light":"#e9d292","deep":"#887441"},
+  "M":{"light":"#f59326","deep":"#b43326"}
 }
 
 WIDTH = 900
-for x in "urm":
+for x in rarity_clrs:
   img = Image.new("RGB", (WIDTH,WIDTH), "#FFFFFF")
   draw = ImageDraw.Draw(img)
-  gradient = linear_gradient(rarity_clrs[x]["deep"],rarity_clrs[x]["light"],WIDTH//2)
+  gradient = power_gradient(rarity_clrs[x]["deep"],rarity_clrs[x]["light"],WIDTH//2,1.25)
   r,g,b = gradient["r"], gradient["g"], gradient["b"]
   for i in range(WIDTH//2):
     draw.line((i,0,i,WIDTH), fill=(int(r[i]),int(g[i]),int(b[i])))
