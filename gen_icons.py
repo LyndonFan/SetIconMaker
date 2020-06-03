@@ -39,12 +39,12 @@ def gen_icons(raw_image,name="icon"):
 
 if __name__ == "__main__":
     args = sys.argv
-    if len(args)==1:
-        for i in range(1,5):
-            name = "test"+str(i)
-            image = cv2.imread(name+'.png')
-            gen_icons(image,name)
-    else:
-        for name in args[1:]:
-            image = cv2.imread(name+'.png')
-            gen_icons(image,name)
+    # if len(args)==1:
+    #     for i in range(1,5):
+    #         name = "test"+str(i)
+    #         image = cv2.imread(name+'.png')
+    #         gen_icons(image,name)
+    # else:
+    for name in args[1:]:
+        image = cv2.imread(name+'.png')
+        gen_icons(image,name)
