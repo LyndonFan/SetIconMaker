@@ -46,5 +46,6 @@ if __name__ == "__main__":
     #         gen_icons(image,name)
     # else:
     for name in args[1:]:
-        image = cv2.imread(name+'.png')
+        image = cv2.imread(name)
+        name = name.replace(".png","")
         gen_icons(image,name)
