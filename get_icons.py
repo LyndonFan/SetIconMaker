@@ -5,9 +5,11 @@ from get_contours import *
 from get_box import *
 
 def get_icons(image,contours,obb,angle="auto"):
-    
+
     box = cv2.boxPoints(obb)
     box = np.int0(box)
+
+    opp_dist = sqrt((box[0][0] - box[2][0])**2 + (box[0][1] - box[2][1])**2)
 
     all_icons = {}
 
@@ -17,18 +19,20 @@ def get_icons(image,contours,obb,angle="auto"):
     for x in "URM":
         im = image
         background = cv2.imread(str(x)+".png")
-        M_rot = cv2.getRotationMatrix2D(center=(background.shape[0]/2,background.shape[1]/2), angle = angle,scale=1)
+        M_rot = cv2.getRotationMatrix2D(
+            center = (background.shape[0]/2,background.shape[1]/2),
+            angle = angle,
+            scale = max(opp_dist/background.shape[0], opp_dist/background.shape[1])
+        )
         rot_background = cv2.warpAffine(background,M_rot,background.shape[:2])
         M_trans = np.float32([[1,0,obb[0][0]-background.shape[0]/2],[0,1,obb[0][1]-background.shape[1]/2]])
         trans_background = cv2.warpAffine(rot_background,M_trans,(image.shape[1],image.shape[0]))
         
-        '''
         display = trans_background.copy()
         cv2.drawContours(display,[box],-1,(0,0,0),1)
         cv2.circle(display,tuple(map(int,obb[0])),2,(0,0,0),4)
         cv2.imshow(x,display)
         cv2.waitKey(0)
-        '''
 
         im = im.reshape(image.shape[0],image.shape[1],1)
         #print(im.shape)
