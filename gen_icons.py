@@ -20,17 +20,21 @@ def gen_icons(raw_image,name="icon"):
     print((width,height),(new_width,new_height))
     resized = cv2.resize(raw_image,dsize=(new_height,new_width))
     try:
-        gray = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY) # convert to grayscale
+        trans_mask = resized[:,:,3] == 0
+        resized[trans_mask] = [255, 255, 255, 255]
+        no_alpha = cv2.cvtColor(resized, cv2.COLOR_BGRA2BGR)
     except:
-        gray = resized
+        no_alpha = resized
+    try:
+        gray = cv2.cvtColor(no_alpha, cv2.COLOR_BGR2GRAY) # convert to grayscale
+    except:
+        gray = no_alpha
     blur = cv2.blur(gray, (10, 10)) # blur the image
     ret, thresh = cv2.threshold(blur, 50, 255, cv2.THRESH_BINARY)
     padded = np.pad(thresh,PAD_WIDTH,mode="constant",constant_values=255)
     preprocessed = padded
-    '''
-    cv2.imshow("preprocessed",preprocessed)
-    cv2.waitKey(0)
-    '''
+    # cv2.imshow("preprocessed",preprocessed)
+    # cv2.waitKey(0)
     contours = get_contours(preprocessed)
     obb = get_box(preprocessed,contours)
     all_icons = get_icons(preprocessed,contours,obb)
@@ -46,6 +50,6 @@ if __name__ == "__main__":
     #         gen_icons(image,name)
     # else:
     for name in args[1:]:
-        image = cv2.imread(name)
+        image = cv2.imread(name, cv2.IMREAD_UNCHANGED)
         name = name.replace(".png","")
         gen_icons(image,name)
