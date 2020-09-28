@@ -28,9 +28,9 @@ def get_icons(image,contours,obb,angle="auto"):
         M_trans = np.float32([[1,0,obb[0][0]-background.shape[0]/2],[0,1,obb[0][1]-background.shape[1]/2]])
         trans_background = cv2.warpAffine(rot_background,M_trans,(image.shape[1],image.shape[0]))
         
-        display = trans_background.copy()
-        cv2.drawContours(display,[box],-1,(0,0,0),1)
-        cv2.circle(display,tuple(map(int,obb[0])),2,(0,0,0),4)
+        # display = trans_background.copy()
+        # cv2.drawContours(display,[box],-1,(0,0,0),1)
+        # cv2.circle(display,tuple(map(int,obb[0])),2,(0,0,0),4)
         # cv2.imshow(x,display)
         # cv2.waitKey(0)
 
