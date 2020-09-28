@@ -31,8 +31,8 @@ def get_icons(image,contours,obb,angle="auto"):
         display = trans_background.copy()
         cv2.drawContours(display,[box],-1,(0,0,0),1)
         cv2.circle(display,tuple(map(int,obb[0])),2,(0,0,0),4)
-        cv2.imshow(x,display)
-        cv2.waitKey(0)
+        # cv2.imshow(x,display)
+        # cv2.waitKey(0)
 
         im = im.reshape(image.shape[0],image.shape[1],1)
         #print(im.shape)
