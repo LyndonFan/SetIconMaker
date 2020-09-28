@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 from get_contours import *
 from get_box import *
 
-def get_icons(image,contours,obb,angle="auto"):
+def get_icons(image,contours,obb,angle="auto",stroke_width=10):
 
     box = cv2.boxPoints(obb)
     box = np.int0(box)
@@ -44,7 +44,7 @@ def get_icons(image,contours,obb,angle="auto"):
         im = cv2.bitwise_not(im)
         #cv2.imshow(x,res)
         res = cv2.bitwise_or(im,trans_background)
-        cv2.drawContours(res,contours,-1,(0,0,0),10)
+        cv2.drawContours(res,contours,-1,(0,0,0),stroke_width)
         '''
         cv2.imshow(x,res)
         cv2.waitKey(0)
@@ -53,7 +53,7 @@ def get_icons(image,contours,obb,angle="auto"):
         all_icons[x] = res
     
     common = np.ones(image.shape) * 255
-    cv2.drawContours(common,contours,-1,(0,0,0),10)
+    cv2.drawContours(common,contours,-1,(0,0,0),stroke_width)
     #cv2.imwrite(name+"C.png",common)
     all_icons["C"] = common
 

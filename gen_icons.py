@@ -9,7 +9,7 @@ import sys
 MAX_DIM = 600
 PAD_WIDTH = 20
 
-def gen_icons(raw_image,name="icon"):
+def gen_icons(raw_image,name="icon",stroke_width=10):
     width, height = raw_image.shape[:2]
     if width>=height:
         new_width = MAX_DIM
@@ -37,19 +37,20 @@ def gen_icons(raw_image,name="icon"):
     # cv2.waitKey(0)
     contours = get_contours(preprocessed)
     obb = get_box(preprocessed,contours)
-    all_icons = get_icons(preprocessed,contours,obb)
+    all_icons = get_icons(preprocessed,contours,obb,stroke_width=stroke_width)
     for key in all_icons.keys():
         cv2.imwrite(name+key+".png",all_icons[key])
 
 if __name__ == "__main__":
     args = sys.argv
-    # if len(args)==1:
-    #     for i in range(1,5):
-    #         name = "test"+str(i)
-    #         image = cv2.imread(name+'.png')
-    #         gen_icons(image,name)
-    # else:
-    for name in args[1:]:
+    if len(args)==1:
+        for i in range(1,5):
+            name = "test"+str(i)
+            image = cv2.imread(name+'.png')
+            gen_icons(image,name)
+    else:
+        name = args[1]
+        stroke_width = 10 if len(args)<=2 else int(args[2])
         image = cv2.imread(name, cv2.IMREAD_UNCHANGED)
         name = name.replace(".png","")
-        gen_icons(image,name)
+        gen_icons(image,name,stroke_width)
